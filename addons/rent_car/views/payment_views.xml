@@ -1,0 +1,44 @@
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_payment_tree" model="ir.ui.view">
+        <field name="name">payment.tree</field>
+        <field name="model">pembayaran.mobil</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="pembayaran_id"/>
+                <field name="harga"/>
+                <field name="metode_pembayaran"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_payment_form" model="ir.ui.view">
+        <field name="name">payment.form</field>
+        <field name="model">pembayaran.mobil</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="pembayaran_id"/>
+                        <field name="harga"/>
+                        <field name="metode_pembayaran"/>
+                        <field name="status"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_payment" model="ir.actions.act_window">
+        <field name="name">Pembayaran</field>
+        <field name="res_model">pembayaran.mobil</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Submenu that Reference the Parent Menu and Action -->
+    <menuitem id="menu_payment" name="Pembayaran" parent="menu_rental_root" action="action_payment"/>
+</odoo>

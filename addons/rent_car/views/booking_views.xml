@@ -1,0 +1,50 @@
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_booking_tree" model="ir.ui.view">
+        <field name="name">booking.tree</field>
+        <field name="model">pemesanan.mobil</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="mobil_id"/>
+                <field name="customer_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="status_book"/>
+                <!-- <field name="pemesanan_id"/> -->
+                <field name="total_harga_sewa"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_booking_form" model="ir.ui.view">
+        <field name="name">booking.form</field>
+        <field name="model">pemesanan.mobil</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="mobil_id"/>
+                        <field name="customer_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="status_book"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_booking" model="ir.actions.act_window">
+        <field name="name">Booking</field>
+        <field name="res_model">pemesanan.mobil</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Submenu that Reference the Parent Menu and Action -->
+    <menuitem id="menu_booking" name="Booking" parent="menu_rental_root" action="action_booking"/>
+</odoo>
