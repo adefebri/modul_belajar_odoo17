@@ -24,11 +24,77 @@
                         <field name="tahun"/>
                         <field name="harga_sewa"/>
                         <field name="status"/>
+                        <field name="image_128"/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+
+
+    <!-- Action untuk membuka form booking -->
+    <record id="rental_booking_action" model="ir.actions.act_window">
+        <field name="name">Create Booking</field>
+        <field name="res_model">pemesanan.mobil</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field> <!-- Membuka form dalam pop-up -->
+        <field name="context">{'default_mobil_id': active_id}</field> <!-- Mengisi default car_id -->
+    </record>
+
+
+    <record id="view_rental_car_kanban" model="ir.ui.view">
+        <field name="name">rental.car.kanban</field>
+        <field name="model">rental.car</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <!-- Field yang akan digunakan di Kanban -->
+                <field name="name"/>
+                <field name="brand"/>
+                <field name="tahun"/>
+                <field name="harga_sewa"/>
+                <field name="status"/>
+                <field name="image_128"/> <!-- Field untuk gambar -->
+
+                <!-- Template untuk tampilan kartu -->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <!-- Gambar mobil -->
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('rental.car', 'image_128', record.id.raw_value)" alt="image" class="img-fluid"/>
+                            </div>
+
+                            <!-- Informasi mobil -->
+                            <div class="o_kanban_details">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <span>Merk: </span>
+                                    <field name="brand"/>
+                                </div>
+                                <div>
+                                    <span>Year: </span>
+                                    <field name="tahun"/>
+                                </div>
+                                <div>
+                                    <span>Status: </span>
+                                    <field name="status"/>
+                                </div>
+                            </div>
+                            <div class="o_kanban_footer">
+                                <button name="%(rental_booking_action)d"   type="action" string="Book Now" class="btn-primary" invisible="status != 'available'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+
+        </field>
+    </record>
+
+
 
     <!-- Root Menu -->
     <menuitem id="menu_rental_root" name="Rental"/>
@@ -37,7 +103,7 @@
     <record id="action_rental_car" model="ir.actions.act_window">
         <field name="name">Cars</field>
         <field name="res_model">rental.car</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
     </record>
 
     <!-- Now Reference the Parent Menu and Action -->

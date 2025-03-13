@@ -12,3 +12,4 @@ class RentalCar(models.Model):
     status = fields.Selection([('available','Available'), ('booked','Booked')],
                                string='Status',
                                default='available' )
+    image_128 = fields.Binary(string="Image", attachment=True)  

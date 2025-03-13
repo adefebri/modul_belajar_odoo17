@@ -12,7 +12,6 @@
                 <field name="start_date"/>
                 <field name="end_date"/>
                 <field name="status_book"/>
-                <!-- <field name="pemesanan_id"/> -->
                 <field name="total_harga_sewa"/>
             </tree>
         </field>
@@ -24,14 +23,21 @@
         <field name="model">pemesanan.mobil</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name ="action_status_book_confirmed" type="object" string="Confirmed" class = "oe_highlight" invisible="status_book != 'draft'"/>
+                    <button name ="action_status_book_completed" type="object" string="Completed" class = "oe_highlight" invisible="status_book != 'confirmed'"/>                  
+                    <button name ="action_status_book_cancelled" type="object" string="Cancel Book" class="btn-danger" invisible="status_book == 'cancelled' or status_book == 'draft' "/>
+  
+                    <field name = "status_book" widget="statusbar" readonly ="1"/>
+                </header>
                 <sheet>
                     <group>
-                        <field name="name"/>
+                        <!-- <field name="name"/> -->
                         <field name="mobil_id"/>
                         <field name="customer_id"/>
                         <field name="start_date"/>
                         <field name="end_date"/>
-                        <field name="status_book"/>
+                        <!-- <field name="status_book"/> -->
                     </group>
                 </sheet>
             </form>

@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+import datetime
 
 class Pembayaran(models.Model):
     _name = 'pembayaran.mobil'
@@ -17,8 +18,22 @@ class Pembayaran(models.Model):
                                ('success','Success')],
                                string='Status Pembayaran',
                                default='pending')   
+    default=lambda self: self._default_name()
+
+
 
     @api.model
+
+    def create(self, vals):
+        # Panggil method create dari superclass
+        payment = super(Pembayaran, self).create(vals)
+
+        # Ubah status mobil menjadi 'booked'
+        if payment.status == 'success':
+            payment.pembayaran_id.write({'status_book': 'confirmed'})
+
+        return payment
+
     def write(self, vals):
         # Panggil method write dari superclass
 
@@ -31,3 +46,9 @@ class Pembayaran(models.Model):
             self.pembayaran_id.write({'status_book': 'confirmed'})
 
         return result
+    
+    def unlink(self):
+        # Kembalikan status mobil ke 'available' ketika pemesanan dihapus
+        for record in self:
+            record.pembayaran_id.write({'status_book': 'cancelled'})
+        return super(Pembayaran, self).unlink()
